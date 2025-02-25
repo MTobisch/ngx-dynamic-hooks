@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.1.2] - 2025-02-25
+### Maintenance
+- Fix: Multiple Self-closing hooks that directly follow each other are now correctly parsed
+
 ## [3.1.1] - 2024-10-28
 ### Maintenance
 - Fix: HookValue.elementSnapshot now contains a deep clone of the found element
@@ -153,7 +157,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - This was the initial release, so everything was added here, really.
 
-[Unreleased]: https://github.com/Angular-Dynamic-Hooks/ngx-dynamic-hooks/compare/v3.1.1...HEAD
+[Unreleased]: https://github.com/Angular-Dynamic-Hooks/ngx-dynamic-hooks/compare/v3.1.2...HEAD
+[3.1.2]: https://github.com/Angular-Dynamic-Hooks/ngx-dynamic-hooks/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/Angular-Dynamic-Hooks/ngx-dynamic-hooks/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/Angular-Dynamic-Hooks/ngx-dynamic-hooks/compare/v3.0.4...v3.1.0
 [3.0.4]: https://github.com/Angular-Dynamic-Hooks/ngx-dynamic-hooks/compare/v3.0.3...v3.0.4

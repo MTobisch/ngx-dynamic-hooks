@@ -383,6 +383,35 @@ describe('SelectorHookParserConfig', () => {
     expect(comp.hookIndex[1].componentRef!.instance.simpleArray).toEqual(['arial', 'calibri']);
   });
 
+  it('#should correctly parse multiple self-closing hooks directly after one another', () => {
+    ({fixture, comp} = prepareTestingModule(() => [
+      provideDynamicHooks({
+        parsers: [{
+          component: MultiTagTestComponent,
+          allowSelfClosing: true,
+          parseWithRegex: true
+        }]
+      })
+    ]));
+
+    const testText = `<p>Some initial text.<multitagtest [simpleArray]="['arial', 'calibri']"/><multitagtest [numberProp]="68135"/>. Some trailing text.</p>`;
+    comp.content = testText;
+    comp.ngOnChanges({content: true} as any);
+
+    expect(fixture.nativeElement.children[0].childNodes[0].textContent).toContain('Some initial text.');
+    expect(fixture.nativeElement.children[0].childNodes[1].tagName).toBe('MULTITAGTEST');
+    expect(fixture.nativeElement.children[0].childNodes[1].querySelector('.multitag-component')).not.toBe(null);
+    expect(fixture.nativeElement.children[0].childNodes[1].querySelector('.multitag-component').innerHTML.trim()).toBe('');
+    expect(fixture.nativeElement.children[0].childNodes[2].tagName).toBe('MULTITAGTEST');
+    expect(fixture.nativeElement.children[0].childNodes[2].querySelector('.multitag-component')).not.toBe(null);
+    expect(fixture.nativeElement.children[0].childNodes[2].querySelector('.multitag-component').innerHTML.trim()).toBe('');
+    expect(fixture.nativeElement.children[0].childNodes[3].textContent).toContain('. Some trailing text.');
+    expect(Object.keys(comp.hookIndex).length).toBe(2);
+    expect(comp.hookIndex[1].componentRef!.instance.constructor.name).toBe('MultiTagTestComponent');
+    expect(comp.hookIndex[1].componentRef!.instance.simpleArray).toEqual(['arial', 'calibri']);
+    expect(comp.hookIndex[2].componentRef!.instance.numberProp).toBe(68135);
+  });
+
   it('#should disallow self-closing hooks, if requested', () => {
     ({fixture, comp} = prepareTestingModule(() => [
       provideDynamicHooks({

@@ -258,8 +258,15 @@ export class TextHookFinder {
       }
     }
 
-    // Actually replace hooks with anchors (from the back, so no need to change indexes)
-    selectorReplaceInstructions.sort((a, b) => b.startIndex - a.startIndex);
+    // Finally replace hooks with anchors
+    // Process in backwards order, so no need to change indexes.
+    // Primarily sort by startIndex. If multiple startIndexes are identical (possible with a follow-up hook to a self-closing hook), secondarily sort by endIndex.
+    selectorReplaceInstructions.sort((a, b) => {
+      let sortResult = b.startIndex - a.startIndex;
+      if (sortResult === 0) sortResult = b.endIndex - a.endIndex;
+      return sortResult;
+    });
+
     for (const selectorReplaceInstruction of selectorReplaceInstructions) {
       const textBeforeSelector = content.substring(0, selectorReplaceInstruction.startIndex);
       const textAfterSelector = content.substring(selectorReplaceInstruction.endIndex);
